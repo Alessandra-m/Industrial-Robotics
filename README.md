@@ -50,9 +50,9 @@
 
 - Пакет: [kuka_experimental/](./kuka_experimental/)
 - Демонстрация: [kuka_experimental.mp4](./kuka_experimental.mp4)
-![kuka_experimental.mp4](./kuka_experimental.mp4)
 
 ---
+
 
 
 
