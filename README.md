@@ -42,7 +42,7 @@
 - Z с захватом: 70.99 мм (маркер: 52.99 мм)
 - YAW: 70.11°
 
-![Результат детекции ArUco маркеров](aruco_detection_result.jpg)
+![Результат детекции ArUco маркеров](ArUco/aruco_detection_result.jpg)
 ---
 
 ### 4. Подключение KUKA KR3 к ROS2 через RSI
@@ -52,6 +52,7 @@
 - Демонстрация: [kuka_experimental.mp4](./kuka_experimental.mp4)
 
 ---
+
 
 
 
