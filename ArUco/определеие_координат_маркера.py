@@ -100,7 +100,5 @@ cv2.imwrite("aruco_detection_result.jpg", image_result)
 
 print(f"X: {T_base_M2[0, 3]:.2f} мм")
 print(f"Y: {T_base_M2[1, 3]:.2f} мм")
-print(f"X: {T_base_M2[0, 3]:.2f} мм")
-print(f"Y: {T_base_M2[1, 3]:.2f} мм")
 print(f"Z с захватом: {T_base_M2[2, 3]:.2f} мм (маркер: {T_base_M2[2, 3] - 18.0:.2f} мм)")
 print(f"YAW: {yaw_deg:.2f}°")
