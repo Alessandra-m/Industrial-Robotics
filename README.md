@@ -1,4 +1,4 @@
-# Industrial Robotics Project
+# Industrial Robotics Project - Мызина Александра
 
 ---
 
@@ -50,4 +50,5 @@ YAW: 70.11°
 - Демонстрация: [kuka_experimental.mp4](./kuka_experimental.mp4)
 
 ---
+
 
