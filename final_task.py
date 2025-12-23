@@ -415,19 +415,21 @@ class MoveGroupPythonInterface(object):
             dtype=np.float32
         )
 
-        SIZE_M1 = 100.0   
-        SIZE_M2 = 28.0    
+        SIZE_M1 = 100.0   # мм
+        SIZE_M2 = 40.0    # мм
 
+        # Положение эталонного маркера M1 в базе робота (мм)
         P_M1_base = np.array([-162.0, -274.0, 2.5])
 
+        # --- Детекция ArUco ---
         aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_5X5_50)
         detector = cv2.aruco.ArucoDetector(
             aruco_dict, cv2.aruco.DetectorParameters()
         )
         corners, ids, _ = detector.detectMarkers(image)
 
-        if ids is None or 3 not in ids or 15 not in ids:
-            raise RuntimeError("Маркеры ID=3 и ID=15 не обнаружены")
+        # if ids is None or 3 not in ids or 15 not in ids:
+        #     raise RuntimeError("Маркеры ID=3 и ID=15 не обнаружены")
 
         marker_corners = {
             int(id_val): corners[i][0]
@@ -463,21 +465,20 @@ class MoveGroupPythonInterface(object):
             T[:3, 3] = tvec.flatten()
             return T
 
-        # Поза маркеров относительно камеры
+        # Поза маркеров относительно камеры 
         T_cam_M1 = estimate_marker_pose(marker_corners[3], SIZE_M1)
-        T_cam_M2 = estimate_marker_pose(marker_corners[15], SIZE_M2)
+        T_cam_M2 = estimate_marker_pose(marker_corners[7], SIZE_M2)
 
-        # M1 в базе робота 
+        #  M1 в базе робота
         T_base_M1 = np.eye(4)
         T_base_M1[:3, 3] = P_M1_base
 
-        # Камера в базе 
+        #  Камера в базе 
         T_base_cam = T_base_M1 @ np.linalg.inv(T_cam_M1)
 
         # Целевой маркер M2 в базе 
         T_base_M2 = T_base_cam @ T_cam_M2
 
-        # Выход
         x = T_base_M2[0, 3] / 1000.0
         y = T_base_M2[1, 3] / 1000.0
 
@@ -632,20 +633,22 @@ def main():
         move_group.go_home()
         
         # Добавление виртуальных стен в сцену робота
-        move_group.add_scene_constraints()
+        # move_group.add_scene_constraints()
 
         # Получение актуальной позиции tool0 - точка куда установлен захват - НЕ НИЖНЯЯ ЧАСТЬ ЗАХВАТА
         cur_pose=move_group.move_group.get_current_pose().pose
         print(cur_pose)
 
         # Переход в тоску над конвейером
-        move_group.go_conveyor_up()
+        # move_group.go_conveyor_up()
        
         input(
             "============ сделать снимок ============")
-        x, y = move_group.get_points_from_img( "/image_raw/")
+        x, y = move_group.get_points_from_img( "/pylon_camera_node/image_raw")
         print("x: ", x)
         print("y: ", y)
+
+        move_group.go_conveyor_up()
         input(
             "============ Подход к точке на конвейере ============")
         pose_goal = move_group.move_group.get_current_pose().pose
